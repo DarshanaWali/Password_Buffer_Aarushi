@@ -32,9 +32,12 @@ public class PasswordManager {
 
                 String hash = HashUtil.hash(password, salt);
 
+                br.close();
                 return hash.equals(storedHash);
             }
         }
+
+        br.close();
         return false;
     }
 
@@ -42,7 +45,9 @@ public class PasswordManager {
     public static void savePassword(String email, String website, String username, String password, String key) throws Exception {
 
         String encrypted = EncryptionUtil.encrypt(password, key);
-        String strength = PasswordStrength.check(password);
+
+        // ✅ FIXED method name
+        String strength = PasswordStrength.getStrength(password);
 
         PasswordEntry entry = new PasswordEntry(website, username, encrypted, strength);
 
@@ -76,18 +81,39 @@ public class PasswordManager {
         return list;
     }
 
-     public static String getSalt(String email) throws Exception {
+    // ------------------ GET SALT ------------------
+    public static String getSalt(String email) throws Exception {
 
-     BufferedReader br = new BufferedReader(new FileReader(USER_FILE));
-     String line;
+        BufferedReader br = new BufferedReader(new FileReader(USER_FILE));
+        String line;
 
-     while ((line = br.readLine()) != null) {
-        String[] parts = line.split(",");
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split(",");
 
-        if (parts[0].equals(email)) {
-            return parts[1]; // salt
+            if (parts[0].equals(email)) {
+                br.close();
+                return parts[1];
+            }
         }
-     }
-     return null;
+
+        br.close();
+        return null;
+    }
+
+    // ------------------ DSA: REUSE DETECTION ------------------
+    public static int countReusedPasswords(List<PasswordEntry> list) {
+
+        Set<String> seen = new HashSet<>();
+        int reused = 0;
+
+        for (PasswordEntry p : list) {
+            String enc = p.getEncryptedPassword();
+
+            if (!seen.add(enc)) {
+                reused++;
+            }
+        }
+
+        return reused;
     }
 }
