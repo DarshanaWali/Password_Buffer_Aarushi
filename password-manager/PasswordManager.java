@@ -75,4 +75,19 @@ public class PasswordManager {
         br.close();
         return list;
     }
+
+     public static String getSalt(String email) throws Exception {
+
+     BufferedReader br = new BufferedReader(new FileReader(USER_FILE));
+     String line;
+
+     while ((line = br.readLine()) != null) {
+        String[] parts = line.split(",");
+
+        if (parts[0].equals(email)) {
+            return parts[1]; // salt
+        }
+     }
+     return null;
+    }
 }

@@ -9,37 +9,37 @@
 <div class="sidebar">
   <div class="logo">🔐 PassVault</div>
   <div class="nav">
-    <a href="/">Login</a>
     <a href="/dashboard">Dashboard</a>
     <a href="/vault">Vault</a>
+    <a href="/logout">Logout</a>
   </div>
 </div>
 
 <div class="main">
 
   <h2>Vault</h2>
-  <p>Store and manage your credentials</p>
+
+  <!-- SEARCH -->
+  <input class="search" id="search" placeholder="Search websites...">
 
   <!-- ADD PASSWORD -->
-  <div class="card" style="margin-bottom:30px;">
-    <h3>Add New Password</h3>
-
+  <div class="card">
+    <h3>Add Password</h3>
     <form action="/addPassword" method="post">
       <input name="website" placeholder="Website" required>
       <input name="username" placeholder="Username" required>
       <input name="password" placeholder="Password" required>
-      <button type="submit">Save Password</button>
+      <button type="submit">Save</button>
     </form>
   </div>
 
-  <!-- PASSWORD TABLE -->
+  <!-- TABLE -->
   <div class="card">
-    <h3>Your Stored Passwords</h3>
-
-    <table>
+    <table id="table">
       <tr>
         <th>Website</th>
         <th>Username</th>
+        <th>Password</th>
         <th>Strength</th>
         <th>Action</th>
       </tr>
@@ -51,14 +51,29 @@
 
 </div>
 
-<!-- 🔥 REVEAL SCRIPT -->
 <script>
-function reveal(enc) {
+// 🔍 SEARCH
+document.getElementById("search").addEventListener("keyup", function() {
+  let val = this.value.toLowerCase();
+  let rows = document.querySelectorAll("#table tr");
+
+  rows.forEach((row, i) => {
+    if (i === 0) return;
+    row.style.display = row.innerText.toLowerCase().includes(val) ? "" : "none";
+  });
+});
+
+// 🔓 REVEAL PASSWORD (correct version)
+function reveal(btn, enc) {
   fetch("/reveal?data=" + encodeURIComponent(enc))
     .then(res => res.text())
-    .then(data => {
-      alert("Password: " + data);
-    });
+    .then(pass => {
+      // move from button -> td -> previous td (strength) -> previous td (password)
+      let passwordCell = btn.parentElement.previousElementSibling.previousElementSibling;
+      passwordCell.innerText = pass;
+      passwordCell.classList.remove("password");
+    })
+    .catch(() => alert("Failed to reveal password"));
 }
 </script>
 

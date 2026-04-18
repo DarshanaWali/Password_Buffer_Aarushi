@@ -9,44 +9,24 @@
 <div class="sidebar">
   <div class="logo">🔐 PassVault</div>
   <div class="nav">
-    <a href="/">Login</a>
     <a href="/dashboard">Dashboard</a>
     <a href="/vault">Vault</a>
+    <a href="/logout">Logout</a>
   </div>
 </div>
 
 <div class="main">
 
   <h2>Dashboard</h2>
-  <p>Security overview of your vault</p>
 
-  <div class="stats">
-
-    <div class="stat-box">
-      <h3>{{TOTAL}}</h3>
-      <p>Total Passwords</p>
-    </div>
-
-    <div class="stat-box">
-      <h3 class="weak">{{WEAK}}</h3>
-      <p>Weak Passwords</p>
-    </div>
-
-    <div class="stat-box">
-      <h3 class="medium">--</h3>
-      <p>Reused Passwords</p>
-    </div>
-
-    <div class="stat-box">
-      <h3 class="strong">--</h3>
-      <p>Security Score</p>
-    </div>
-
+  <div class="card">
+    <h3>Total Passwords</h3>
+    <p>{{TOTAL}}</p>
   </div>
 
-  <div class="card" style="margin-top:30px;">
-    <h3>Quick Actions</h3>
-    <a href="/vault"><button>Go to Vault</button></a>
+  <div class="card">
+    <h3>Weak Passwords</h3>
+    <p class="weak">{{WEAK}}</p>
   </div>
 
 </div>

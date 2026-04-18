@@ -24,7 +24,13 @@ public class LoginHandler implements HttpHandler {
         try {
             if (PasswordManager.login(email, password)) {
 
-                String session = SessionManager.createSession(email);
+                // 🔥 derive key using same salt
+                String salt = PasswordManager.getSalt(email);
+                String fullHash = HashUtil.hash(password, salt);
+
+                String key = fullHash.substring(0, 16); // AES key
+
+                String session = SessionManager.createSession(email, key);
 
                 exchange.getResponseHeaders().add("Set-Cookie", "session=" + session);
                 exchange.getResponseHeaders().add("Location", "/dashboard");

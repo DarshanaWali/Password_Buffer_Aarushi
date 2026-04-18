@@ -10,21 +10,17 @@
   <div class="logo">🔐 PassVault</div>
   <div class="nav">
     <a href="/">Login</a>
-    <a href="/dashboard">Dashboard</a>
-    <a href="/vault">Vault</a>
   </div>
 </div>
 
 <div class="main">
   <div class="card">
-    <h2>Welcome back</h2>
-    <p>Enter your master password</p>
+    <h2>Login</h2>
 
     <form action="/login" method="post">
       <input type="text" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Master Password" required>
-
-      <button type="submit">Unlock Vault</button>
+      <button type="submit">Login</button>
     </form>
 
     <hr style="margin:20px 0;">
@@ -33,7 +29,7 @@
     <form action="/register" method="post">
       <input type="text" name="email" placeholder="Email" required>
       <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Create Account</button>
+      <button type="submit">Register</button>
     </form>
   </div>
 </div>

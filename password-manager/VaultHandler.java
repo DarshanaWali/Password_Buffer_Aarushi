@@ -8,6 +8,7 @@ public class VaultHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
 
         try {
+            // 🔐 Session check
             String cookie = exchange.getRequestHeaders().getFirst("Cookie");
 
             if (cookie == null || !cookie.contains("session=")) {
@@ -32,11 +33,19 @@ public class VaultHandler implements HttpHandler {
             StringBuilder rows = new StringBuilder();
 
             for (PasswordEntry p : list) {
+
+                String strengthClass = p.getStrength().toLowerCase();
+
                 rows.append("<tr>")
                     .append("<td>").append(p.getWebsite()).append("</td>")
                     .append("<td>").append(p.getUsername()).append("</td>")
-                    .append("<td>").append(p.getStrength()).append("</td>")
-                    .append("<td><button onclick=\"reveal('")
+                    .append("<td class='password'>••••••</td>")
+                    .append("<td><span class='badge ")
+                    .append(strengthClass)
+                    .append("'>")
+                    .append(p.getStrength())
+                    .append("</span></td>")
+                    .append("<td><button onclick=\"reveal(this,'")
                     .append(p.getEncryptedPassword())
                     .append("')\">Reveal</button></td>")
                     .append("</tr>");
@@ -50,22 +59,27 @@ public class VaultHandler implements HttpHandler {
 
             html = html.replace("{{ROWS}}", rows.toString());
 
-            // ✅ IMPORTANT FIXES
-            exchange.getResponseHeaders().set("Content-Type", "text/html");
-            byte[] responseBytes = html.getBytes();
+            // 🚫 NO CACHE (CRITICAL)
+            exchange.getResponseHeaders().set("Cache-Control", "no-cache, no-store, must-revalidate");
+            exchange.getResponseHeaders().set("Pragma", "no-cache");
+            exchange.getResponseHeaders().set("Expires", "0");
 
-            exchange.sendResponseHeaders(200, responseBytes.length);
+            exchange.getResponseHeaders().set("Content-Type", "text/html");
+
+            byte[] response = html.getBytes();
+
+            exchange.sendResponseHeaders(200, response.length);
 
             OutputStream os = exchange.getResponseBody();
-            os.write(responseBytes);
+            os.write(response);
             os.close();
 
         } catch (Exception e) {
             e.printStackTrace();
 
-            String error = "Internal Server Error";
-            exchange.sendResponseHeaders(500, error.length());
-            exchange.getResponseBody().write(error.getBytes());
+            String err = "Internal Server Error";
+            exchange.sendResponseHeaders(500, err.length());
+            exchange.getResponseBody().write(err.getBytes());
             exchange.close();
         }
     }

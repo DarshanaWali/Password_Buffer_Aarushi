@@ -5,6 +5,7 @@ import java.util.Base64;
 public class EncryptionUtil {
 
     public static String encrypt(String data, String key) throws Exception {
+
         SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
 
         Cipher cipher = Cipher.getInstance("AES");
@@ -14,6 +15,7 @@ public class EncryptionUtil {
     }
 
     public static String decrypt(String data, String key) throws Exception {
+
         SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
 
         Cipher cipher = Cipher.getInstance("AES");

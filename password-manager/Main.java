@@ -50,6 +50,7 @@ public class Main {
         server.createContext("/dashboard", new DashboardHandler());
         server.createContext("/vault", new VaultHandler());
         server.createContext("/reveal", new RevealHandler());
+        server.createContext("/logout", new LogoutHandler());
 
         server.start();
         System.out.println("Running on port 8080");
