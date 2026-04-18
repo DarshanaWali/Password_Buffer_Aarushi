@@ -1,0 +1,114 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* BACKGROUND */
+body {
+  display: flex;
+  background: #0b1220;
+  color: #fff;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background: #0f172a;
+  padding: 20px;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #60a5fa;
+}
+
+.nav a {
+  display: block;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: #1e293b;
+}
+
+/* MAIN CONTENT */
+.main {
+  flex: 1;
+  padding: 40px;
+}
+
+/* CARD */
+.card {
+  background: #111827;
+  padding: 25px;
+  border-radius: 12px;
+  width: 350px;
+  margin: auto;
+  text-align: center;
+}
+
+/* INPUT */
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #1f2937;
+  border: none;
+  border-radius: 8px;
+  color: white;
+}
+
+/* BUTTON */
+button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  background: #2563eb;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* DASHBOARD CARDS */
+.stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-box {
+  background: #111827;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+td, th {
+  padding: 12px;
+  border-bottom: 1px solid #1f2937;
+}
+
+.strong { color: #22c55e; }
+.weak { color: #ef4444; }
+.medium { color: #facc15; }
